@@ -9,7 +9,6 @@ export const register = async (id, password, nickname) => {
     nickname: nickname,
   });
   return response;
-  console.log(response);
 };
 
 export const login = async (id, password) => {
@@ -17,7 +16,26 @@ export const login = async (id, password) => {
     id: id,
     password: password,
   });
+  console.log(response);
   localStorage.setItem("accessToken", response.data.accessToken);
   return response.data;
-  console.log(response.data);
+};
+
+export const getUserInfo = async () => {
+  const accessToken = localStorage.getItem("accessToken");
+  console.log(accessToken);
+  if (accessToken) {
+    try {
+      const response = await axios.get(`${AUTH_API_HOST}/user`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      alert("토큰이 만료됨");
+      localStorage.clear();
+    }
+  }
 };

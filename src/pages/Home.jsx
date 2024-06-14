@@ -31,7 +31,6 @@ export default function Home({ expenses, setExpenses }) {
 
   return (
     <Container>
-      <h1>까꼐뿌</h1>
       <button
         onClick={() => {
           navigate("/login");

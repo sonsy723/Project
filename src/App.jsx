@@ -3,9 +3,12 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Detail from "./pages/Detail";
 import SignUp from "./pages/SignUp";
-import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import Layout from "./components/Layout";
+import Profile from "./components/Profile";
 import "./App.css";
+import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { getUserInfo } from "./lib/api/auth";
 
 function App() {
   const [expenses, setExpenses] = useState([
@@ -68,22 +71,24 @@ function App() {
     },
   ]);
   const [user, setUser] = useState(null);
-  console.log(user);
 
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/"
-            element={<Home expenses={expenses} setExpenses={setExpenses} />}
-          />
+          <Route path="/" element={<Layout setUser={setUser} user={user} />}>
+            <Route
+              index
+              element={<Home expenses={expenses} setExpenses={setExpenses} />}
+            />
+            <Route
+              path="/detail/:id"
+              element={<Detail expenses={expenses} setExpenses={setExpenses} />}
+            />
+          </Route>
+          <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route
-            path="/detail/:id"
-            element={<Detail expenses={expenses} setExpenses={setExpenses} />}
-          />
         </Routes>
       </BrowserRouter>
     </>

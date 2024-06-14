@@ -58,7 +58,8 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     // 유효성 검사
     if (id.length < 1) {
       alert("아이디를 작성해주세요.");
@@ -71,8 +72,8 @@ function Login() {
     try {
       // API 호출
       const response = await login(id, password);
-      alert("로그인 완료");
       console.log(response);
+      alert("로그인 완료");
       navigate("/");
     } catch (error) {
       alert(error.message);
@@ -83,7 +84,7 @@ function Login() {
   return (
     <div>
       <LoginH1>LOGIN</LoginH1>
-      <LoginForm>
+      <LoginForm onSubmit={handleLogin}>
         <div>
           <LoginLabel>아이디</LoginLabel>
           <LoginInput
@@ -106,15 +107,7 @@ function Login() {
             }}
           />
         </div>
-        <LoginBtn
-          type="submit"
-          onClick={(e) => {
-            e.preventDefault();
-            handleLogin();
-          }}
-        >
-          로그인
-        </LoginBtn>
+        <LoginBtn type="submit">로그인</LoginBtn>
         <LoginBtn
           onClick={() => {
             navigate("/signup");
