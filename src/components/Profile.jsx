@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useEffect } from "react";
 
@@ -32,18 +32,38 @@ const Button = styled.button`
   margin-bottom: 10px;
 `;
 function Profile() {
+  const [nickname, setNickname] = useState("");
+  const [avatar, setAvatar] = useState(null);
+  const handleProfileUpdate = () => {
+    console.log(nickname, avatar);
+  };
+
   return (
     <Container>
       <h2>프로필 수정</h2>
       <InputGroup>
         <label htmlFor="nickname">닉네임</label>
-        <input type="text" placeholder="닉네임" minLength="1" maxLength="10" />
+        <input
+          type="text"
+          placeholder="닉네임"
+          minLength="1"
+          maxLength="10"
+          onChange={(e) => {
+            setNickname(e.target.value);
+          }}
+        />
       </InputGroup>
       <InputGroup>
         <label htmlFor="nickname">아바타</label>
-        <input type="file" accept="image/*" />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            setAvatar(e.target.files[0]);
+          }}
+        />
       </InputGroup>
-      <Button>업데이트</Button>
+      <Button onClick={handleProfileUpdate}>업데이트</Button>
     </Container>
   );
 }
